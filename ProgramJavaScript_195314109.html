@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript_109</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        padding: 20px;
+      }
+
+      #form {
+        background-color: #fff;
+        border-radius: 5px;
+        width: 300px;
+        margin: 20px auto;
+        padding: 20px;
+      }
+
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      #inputForm,
+      #dropdown,
+      #resultText,
+      #result {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+      }
+    </style>
+    <script>
+      function showInputForm() {
+        var name = document.getElementById("name").value;
+        var count = parseInt(document.getElementById("count").value);
+
+        var inputForm = "";
+        for (var i = 1; i <= count; i++) {
+          inputForm += "Pilihan " + i + " : <input type='text' id='choice" + i + "'><br>";
+        }
+        inputForm += "<button onclick='showDropDown()'>OK</button>";
+        document.getElementById("inputForm").innerHTML = inputForm;
+
+        document.getElementById("result").innerHTML = "";
+        document.getElementById("resultText").innerHTML = "";
+
+        sessionStorage.setItem("name", name);
+        sessionStorage.setItem("count", count);
+      }
+
+      function showDropDown() {
+        var choices = [];
+        var count = parseInt(sessionStorage.getItem("count"));
+
+        for (var i = 1; i <= count; i++) {
+          var choice = document.getElementById("choice" + i).value;
+          choices.push(choice);
+        }
+
+        var dropdown = "Pilihan : <select id='selectedChoice'>";
+        for (var i = 0; i < choices.length; i++) {
+          dropdown += "<option value='" + choices[i] + "'>" + choices[i] + "</option>";
+        }
+        dropdown += "</select><br><button onclick='showResult()'>OK</button>";
+
+        document.getElementById("dropdown").innerHTML = dropdown;
+      }
+
+      function showResult() {
+        var name = sessionStorage.getItem("name");
+        var count = parseInt(sessionStorage.getItem("count"));
+        var selectedChoice = document.getElementById("selectedChoice").value;
+
+        var result = "Hallo, nama saya " + name + ", saya mempunyai sejumlah " + count + " pilihan yaitu ";
+        var choices = [];
+        for (var i = 1; i <= count; i++) {
+          var choice = document.getElementById("choice" + i).value;
+          choices.push(choice);
+        }
+        result += choices.join(", ") + ", dan saya memilih " + selectedChoice;
+
+        document.getElementById("result").innerHTML = result;
+        document.getElementById("resultText").innerHTML = "<br>Hasil:";
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Form Pilihan</h1>
+    <div id="form">
+      Nama : <input type="text" id="name" /><br />
+      Jumlah Pilihan : <input type="number" id="count" /><br />
+      <button onclick="showInputForm()">OK</button>
+    </div>
+    <div id="inputForm"></div>
+    <div id="dropdown"></div>
+    <div id="resultText"></div>
+    <div id="result"></div>
+  </body>
+</html>
